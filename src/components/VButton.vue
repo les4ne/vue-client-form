@@ -16,9 +16,16 @@ export default {
 <style lang="scss" scoped>
 $white-color: #ffffff;
 $dark-blue-color: #2d398e;
+
 #v-button__group {
+  width: 90%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: flex-end;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-start;
+  margin: 0 auto;
 
   input {
     padding: 15px 50px;
@@ -27,6 +34,8 @@ $dark-blue-color: #2d398e;
     color: $white-color;
     font-weight: bold;
     font-size: 1em;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
     transition: 0.5s;
     text-transform: uppercase;
     cursor: pointer;
@@ -35,6 +44,8 @@ $dark-blue-color: #2d398e;
   input:hover {
     background: $white-color;
     color: $dark-blue-color;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
     transition: 0.5s;
   }
 

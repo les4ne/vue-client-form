@@ -43,7 +43,7 @@
       <v-input name="passport-number" label="номер"></v-input>
       <v-input name="passport-issued-by" label="кем выдан"></v-input>
       <v-input name="passport-date-of-issue" label="дата выдачи *"></v-input>
-      <v-button value="создать"></v-button>
+      <v-button value="создать клиента"></v-button>
     </form>
   </div>
 </template>
@@ -73,14 +73,28 @@ $dark-violet-color: #3a469c;
 $white-color: #ffffff;
 $grey-color: rgba(0, 0, 0, 0.35);
 
+$break-small: 320px;
+$break-large: 1200px;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
+  width: 100%;
+  height: 100%;
   background: $light-blue-color;
-  background: -webkit-linear-gradient(
-    to left,
-    $light-violet-color,
-    $light-blue-color
+  background: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    from($light-violet-color),
+    to($light-blue-color)
   );
+  background: -o-linear-gradient(right, $light-violet-color, $light-blue-color);
   background: linear-gradient(to left, $light-violet-color, $light-blue-color);
+  background-size: cover;
 }
 
 #app {
@@ -90,29 +104,95 @@ body {
   padding: 20px;
   width: 720px;
   margin: 60px auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   border: 10px solid $dark-blue-color;
   background: $dark-violet-color;
+  -webkit-box-shadow: $grey-color 0px 5px 15px;
   box-shadow: $grey-color 0px 5px 15px;
 
   h1 {
     color: $white-color;
     text-transform: uppercase;
+    margin-bottom: 5px;
   }
 
   form {
+    width: 100%;
+    max-width: 960px;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -ms-flex-line-pack: center;
     align-content: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    padding-right: 15px;
 
     h2 {
       color: $white-color;
       text-transform: uppercase;
       text-align: center;
+      margin-bottom: 30px;
+    }
+  }
+
+  @media screen and (min-width: 320px) {
+    width: 81%;
+    margin: 10px auto;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+    border-width: 5px;
+    h1 {
+      text-align: center;
+      font-size: 1.4em;
+    }
+    h2 {
+      font-size: 0.9em;
+    }
+  }
+
+  @media screen and (min-width: 364px) {
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+    h1 {
+      font-size: 1.5em;
+    }
+    h2 {
+      font-size: 1em;
+    }
+  }
+
+  @media screen and (min-width: 788px) {
+    width: 720px;
+    margin: 60px auto;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+    h1 {
+      font-size: 2em;
+    }
+    h2 {
+      font-size: 1.5em;
     }
   }
 }
