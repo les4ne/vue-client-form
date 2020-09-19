@@ -2,15 +2,14 @@
   <div id="v-input__group">
     <label :for="name" id="label">{{ label }}</label>
     <input
-      type="text"
+      :type="type"
       :id="name"
       :name="name"
+      :class="invalid"
+      v-on:input="updateValue($event.target.value)"
       autocomplete="off"
-      class="alert-danger"
     />
-    <span class="alert-danger">• Must contain only alpha numeric numbers</span>
-    <span class="alert-danger">• Must contain only alpha numeric numbers</span>
-    <span class="alert-danger">• Must contain only alpha numeric numbers</span>
+    <slot></slot>
   </div>
 </template>
 
@@ -20,6 +19,17 @@ export default {
   props: {
     label: String,
     name: String,
+    invalid: Object,
+    value: String,
+    type: {
+      type: String,
+      default: 'text',
+    },
+  },
+  methods: {
+    updateValue: function(value) {
+      this.$emit('input', value)
+    },
   },
 }
 </script>
@@ -28,6 +38,7 @@ export default {
 $light-blue-color: #0e98d7;
 $dark-blue-color: #2d398e;
 $white-color: #ffffff;
+$red-color: #f05340;
 
 #v-input__group {
   width: 90%;
@@ -71,14 +82,8 @@ $white-color: #ffffff;
     transition: background 0.5s;
   }
 
-  span {
-    color: #f05340;
-    font-size: 1em;
-    font-weight: bold;
-  }
-
-  .alert-danger {
-    border-color: #f05340;
+  .invalid {
+    border-color: $red-color;
   }
 }
 </style>

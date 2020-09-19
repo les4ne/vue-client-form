@@ -1,10 +1,18 @@
 <template>
   <div id="v-select__group">
     <label :for="name">{{ label }}</label>
-
-    <select :name="name" :id="name" :multiple="multiple">
+    <select
+      :name="name"
+      :id="name"
+      :multiple="multiple"
+      :class="invalid"
+      v-on:input="updateValue($event.target.value)"
+    >
       <slot></slot>
     </select>
+    <span v-if="statement">
+      • Поле не должно быть пустым.
+    </span>
   </div>
 </template>
 
@@ -15,6 +23,13 @@ export default {
     label: String,
     multiple: String,
     name: String,
+    invalid: Object,
+    statement: Boolean,
+  },
+  methods: {
+    updateValue: function(value) {
+      this.$emit('input', value)
+    },
   },
 }
 </script>
@@ -23,6 +38,8 @@ export default {
 $light-blue-color: #0e98d7;
 $dark-blue-color: #2d398e;
 $white-color: #ffffff;
+$red-color: #f05340;
+
 #v-select__group {
   width: 90%;
   display: -webkit-box;
@@ -74,6 +91,10 @@ $white-color: #ffffff;
     -webkit-transition: background 0.5s;
     -o-transition: background 0.5s;
     transition: background 0.5s;
+  }
+
+  .invalid {
+    border-color: $red-color;
   }
 }
 </style>

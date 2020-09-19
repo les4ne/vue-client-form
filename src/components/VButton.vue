@@ -1,6 +1,6 @@
 <template>
   <div id="v-button__group">
-    <input type="button" :value="value" />
+    <input type="submit" :value="value" />
   </div>
 </template>
 
