@@ -59,6 +59,10 @@ $red-color: #f05340;
     cursor: pointer;
   }
 
+  input[type='date'] {
+    font-size: 1.4em;
+  }
+
   input {
     width: 100%;
     padding: 10px;

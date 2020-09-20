@@ -1,6 +1,7 @@
 <template>
   <div id="v-button__group">
     <input type="submit" :value="value" />
+    <slot></slot>
   </div>
 </template>
 
@@ -24,11 +25,12 @@ $dark-blue-color: #2d398e;
   display: flex;
   -webkit-box-pack: end;
   -ms-flex-pack: end;
-  justify-content: flex-start;
+  justify-content: center;
   margin: 0 auto;
 
   input {
     padding: 15px 50px;
+    margin-top: 20px;
     border: 2px solid $white-color;
     background: transparent;
     color: $white-color;

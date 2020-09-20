@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>Форма создания Клиента</h1>
-    <form id="form" @submit.prevent="formSubmit">
+    <form id="form" @submit.prevent="submit">
       <span class="warnInfo">* Поля обязательные для заполнения</span>
       <h2>Атрибуты формы:</h2>
 
@@ -74,6 +74,7 @@
       </v-input>
 
       <v-input
+        type="number"
         name="form-tel-number"
         label="номер телефона *"
         v-model="telNumber"
@@ -133,6 +134,7 @@
 
       <h2>Адрес:</h2>
       <v-input
+        type="number"
         name="address-index"
         label="Индекс"
         v-model="addressIndex"
@@ -194,6 +196,7 @@
       </v-select>
 
       <v-input
+        type="number"
         name="passport-series"
         label="серия"
         v-model="passportSeries"
@@ -216,33 +219,6 @@
         </span>
       </v-input>
 
-      <v-input
-        name="form-tel-number"
-        label="номер телефона *"
-        v-model="telNumber"
-        @input="$v.telNumber.$touch"
-        :invalid="{
-          invalid:
-            ($v.telNumber.$dirty && !$v.telNumber.required) ||
-            !$v.telNumber.minLength ||
-            !$v.telNumber.maxLength ||
-            !$v.telNumber.numeric ||
-            !$v.telNumber.telFormat,
-        }"
-      >
-        <span v-if="$v.telNumber.$dirty && !$v.telNumber.required">
-          • Поле не должно быть пустым.
-        </span>
-        <span v-if="!$v.telNumber.minLength || !$v.telNumber.maxLength">
-          • Поле должно иметь 11 цифр.
-        </span>
-        <span v-if="!$v.telNumber.numeric">
-          • Поле должно содержать только цифры.
-        </span>
-        <span v-if="!$v.telNumber.telFormat">
-          • Номер должен начинаться с 7.
-        </span>
-      </v-input>
       <v-input
         name="passport-number"
         label="номер"
@@ -285,6 +261,8 @@
         </span>
       </v-input>
 
+      <span class="warnInfo">{{ submitStatus }}</span>
+
       <v-button value="создать клиента"></v-button>
     </form>
   </div>
@@ -322,6 +300,7 @@ export default {
       passportSeries: '',
       passportNumber: '',
       passportIssueDate: '',
+      submitStatus: '',
     }
   },
   validations: {
@@ -382,12 +361,16 @@ export default {
     VButton,
   },
   methods: {
-    formSubmit() {
+    submit() {
+      this.$v.$touch()
       if (this.$v.$invalid) {
-        this.$v.$touch()
-        return
+        this.submitStatus = 'Ошибка отправки, проверьте введенные данные!'
+      } else {
+        this.submitStatus = 'Отправка данных...'
+        setTimeout(() => {
+          this.submitStatus = 'Клиент успешно создан!'
+        }, 500)
       }
-      console.log('Submitted')
     },
   },
 }
@@ -452,9 +435,11 @@ body {
   box-shadow: $grey-color 0px 5px 15px;
 
   h1 {
-    color: $white-color;
+    color: $dark-violet-color;
     text-transform: uppercase;
     margin-bottom: 5px;
+    background: $light-blue-color;
+    width: 100%;
   }
 
   form {
@@ -492,6 +477,8 @@ body {
       text-align: center;
       align-self: center;
       font-weight: normal;
+      color: $dark-blue-color;
+      font-weight: bold;
     }
   }
 
