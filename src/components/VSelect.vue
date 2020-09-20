@@ -5,96 +5,67 @@
       :name="name"
       :id="name"
       :multiple="multiple"
-      :class="invalid"
+      :class="{
+        error:
+          typeof validation !== 'undefined' &&
+          validation.$dirty &&
+          validation.$invalid,
+      }"
       v-on:input="updateValue($event.target.value)"
+      @blur="onBlur"
     >
       <slot></slot>
     </select>
-    <span v-if="statement">
-      • Поле не должно быть пустым.
-    </span>
+    <template v-if="typeof validation !== 'undefined' && validation.$dirty">
+      <span v-for="(error, index) in errors" :key="index">{{ error }}</span>
+    </template>
   </div>
 </template>
 
 <script>
+import errorMessages from '../errors'
+
 export default {
   name: 'v-select',
   props: {
     label: String,
-    multiple: String,
+    multiple: {
+      type: String,
+      required: false,
+    },
     name: String,
-    invalid: Object,
-    statement: Boolean,
+    validation: {
+      type: Object,
+      required: false,
+    },
+  },
+  computed: {
+    errors() {
+      let params = this.validation.$params
+      let errors = []
+
+      for (let param in params) {
+        if (!this.validation[param]) {
+          errors.push(errorMessages[param])
+        }
+      }
+
+      return errors
+    },
   },
   methods: {
     updateValue: function(value) {
       this.$emit('input', value)
+    },
+    onBlur() {
+      if (typeof this.validation !== 'undefined') {
+        this.validation.$touch()
+      }
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-$light-blue-color: #0e98d7;
-$dark-blue-color: #2d398e;
-$white-color: #ffffff;
-$red-color: #f05340;
-
-#v-select__group {
-  width: 90%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  color: $light-blue-color;
-  align-items: flex-start;
-  margin: 0 auto 40px auto;
-
-  label {
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-  }
-
-  select {
-    width: 100%;
-    font-size: 1.2em;
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid $light-blue-color;
-    outline: none;
-    color: $white-color;
-    -webkit-transition: background 0.5s;
-    -o-transition: background 0.5s;
-    transition: background 0.5s;
-    padding: 5px;
-
-    option {
-      padding: 5px;
-    }
-
-    option:checked {
-      background: $light-blue-color -webkit-gradient(linear, left bottom, left
-            top, from($light-blue-color), to($light-blue-color));
-      background: $light-blue-color -o-linear-gradient(bottom, $light-blue-color
-            0%, $light-blue-color 100%);
-      background: $light-blue-color
-        linear-gradient(0deg, $light-blue-color 0%, $light-blue-color 100%);
-    }
-  }
-
-  select:focus {
-    background: $dark-blue-color;
-    -webkit-transition: background 0.5s;
-    -o-transition: background 0.5s;
-    transition: background 0.5s;
-  }
-
-  .invalid {
-    border-color: $red-color;
-  }
-}
+@import '../assets/sass/select';
 </style>
